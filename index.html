@@ -179,37 +179,39 @@ addToHistory(current);
 }
 
 function answer(btn, opt) {
-  if (answered) return;
+if (answered) return;
 
-  answered = true;
-  total++;
+answered = true;
+total++;
 
-  const buttons = [...document.querySelectorAll('.choice')];
-  buttons.forEach(b => b.disabled = true);
+const buttons = […document.querySelectorAll(’.choice’)];
+buttons.forEach(b => b.disabled = true);
 
-  if (opt.no === current.no) {
-    correct++;
-    btn.classList.add('correct');
-    document.getElementById('result').textContent = '正解！';
-  } else {
-    btn.classList.add('wrong');
+if (opt.no === current.no) {
+correct++;
+btn.classList.add(‘correct’);
+document.getElementById(‘result’).textContent = ‘正解！’;
+} else {
+btn.classList.add(‘wrong’);
 
-    if (!wrongWords.some(x => x.no === current.no)) {
-      wrongWords.push(current);
-      saveWrongWords();
-    }
+if (!wrongWords.some(x => x.no === current.no)) {
+  wrongWords.push(current);
+  saveWrongWords();
+}
+const correctBtn = buttons.find(
+  b => b.textContent === current.meaning
+);
+if (correctBtn) correctBtn.classList.add('correct');
+document.getElementById('result').textContent =
+  `不正解。正解は「${current.meaning}」`;
 
-    const correctBtn = buttons.find(
-      b => b.textContent === current.meaning
-    );
+}
 
-    if (correctBtn) correctBtn.classList.add('correct');
+document.getElementById(‘meaning’).classList.remove(‘hidden’);
+document.getElementById(‘next’).classList.remove(‘hidden’);
 
-    document.getElementById('result').textContent =
-      `不正解。正解は「${current.meaning}」`;
-  }
-
-  document.getElementById('meaning').classList.remove('hidden');
+updateStats();
+}
   document.getElementById('next').classList.remove('hidden');
 
   updateStats();
